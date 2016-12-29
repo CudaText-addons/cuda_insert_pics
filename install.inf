@@ -1,0 +1,26 @@
+[info]
+title=Insert Pics
+desc=Some description
+type=cudatext-plugin
+subdir=cuda_insert_pics
+homepage=
+
+[item1]
+section=events
+events=on_open,on_save
+
+[item2]
+section=commands
+caption=Insert Pics\Insert pic...
+method=insert_dlg
+
+[item5]
+section=commands
+caption=Insert Pics\Remove pic for current line
+method=del_cur
+
+[item6]
+section=commands
+caption=Insert Pics\Remove all pics
+method=del_all
+
