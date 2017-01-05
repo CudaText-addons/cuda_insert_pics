@@ -86,6 +86,8 @@ class Command:
 
         ed.gap(GAP_DELETE, nline, nline)
         ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag)
+        
+        print('[Insert Pics] "%s", %dx%d, line %d' % (fn, size_x, size_y, nline+1))
 
 
     def del_cur(self):
@@ -124,7 +126,7 @@ class Command:
             size_x = item['size_x']
             size_y = item['size_y']
 
-            ntag = PIC_TAG + crc
+            ntag = PIC_TAG+crc
             fn_temp = os.path.join(temp_dir, pic_fn)
             write_file_code(fn_temp, pic_data)
 
