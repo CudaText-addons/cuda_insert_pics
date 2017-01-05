@@ -69,9 +69,11 @@ class Command:
 
 
     def add_dataitem(self, crc, fn_ed, size_x, size_y, pic_fn, pic_data):
-    
-        data_all[crc] = {
-          'ed_fn': fn_ed,
+
+        if fn_ed not in data_all:
+            data_all[fn_ed] = {}    
+        
+        data_all[fn_ed][crc] = {
           'size_x': size_x,
           'size_y': size_y,
           'pic_fn': pic_fn,
@@ -141,21 +143,23 @@ class Command:
 
     def on_save(self, ed_self):
     
-        fn = ed_self.get_filename()
-        if not fn: return
-        fn = get_notes_fn(fn)
-
-        if os.path.isfile(fn):
-            os.remove(fn)
+        fn_ed = ed_self.get_filename()
+        if not fn_ed: return
+        fn_notes = get_notes_fn(fn_ed)
+        if os.path.isfile(fn_notes):
+            os.remove(fn_notes)
 
         gaps = ed_self.gap(GAP_GET_LIST, 0, 0)
         if not gaps: return
+        
+        data_ed = data_all.get(fn_ed, None)
+        if not data_ed: return
 
         data_this = []
         for (nline, ntag, size_x, size_y) in gaps:
             crc = ntag-PIC_TAG
             if crc<=0: continue
-            data_item = data_all.get(crc, None)
+            data_item = data_ed.get(crc, None)
             if data_item:
                 data_this.append({
                   'crc': crc,
@@ -167,5 +171,5 @@ class Command:
                   })
 
         if not data_this: return
-        with open(fn, 'w', encoding='utf8') as f:
+        with open(fn_notes, 'w', encoding='utf8') as f:
             f.write(json.dumps(data_this, indent=4))
