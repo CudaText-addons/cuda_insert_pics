@@ -1,14 +1,14 @@
 import os
-import zlib
-import base64
 import json
 import tempfile
+import zlib
+import base64
 from cudatext import *
 from .imgsize import *
 
 PIC_TAG = 0x1000 #minimal tag for api (CRC adds to tag)
 BIG_SIZE = 500 #if width bigger, ask to resize
-DIALOG_FILTER = 'Picture files|*.png;*.jpg;*.jpeg;*.gif'
+DIALOG_FILTER = 'Pictures|*.png;*.jpg;*.jpeg;*.jpe;*.gif'
 
 data_all = {}
 temp_dir = tempfile.gettempdir()
@@ -24,17 +24,18 @@ def get_file_code(filename):
         s = base64.b64encode(f.read())
         s = s.decode()
     return s
-    
+
 def write_file_code(filename, s):
     s = s.encode()
     s = base64.b64decode(s)
     with open(filename, "wb") as f:
         f.write(s)
-        
+
 
 def get_notes_fn(fn):
     if fn:
         return fn+'.cuda-notes'
+
 
 class Command:
     def insert_dlg(self):
@@ -57,23 +58,27 @@ class Command:
         x1, nline, x2, y2 = ed.get_carets()[0]
 
         crc = get_file_crc(fn)
-        ntag = PIC_TAG + crc
         code = get_file_code(fn)
-        data_all[crc] = {
-          'ed_fn': ed.get_filename(),
-          'size_x': size_x,
-          'size_y': size_y,
-          'pic_fn': os.path.basename(fn),
-          'pic_data': code,
-          }
-          
+        ntag = PIC_TAG+crc
+        
+        self.add_dataitem(crc, ed.get_filename(), size_x, size_y, os.path.basename(fn), code)
         self.add_pic(ed, nline, fn, size_x, size_y, ntag)
         ed.set_prop(PROP_MODIFIED, '1')
-        msg_status('Preview of "%s" as %dx%d, at line %d' % (os.path.basename(fn), size_x, size_y, nline))
+        msg_status('Preview of "%s" as %dx%d, line %d' % (os.path.basename(fn), size_x, size_y, nline))
+
+
+    def add_dataitem(self, crc, fn_ed, size_x, size_y, pic_fn, pic_data):
+        data_all[crc] = {
+          'ed_fn': fn_ed,
+          'size_x': size_x,
+          'size_y': size_y,
+          'pic_fn': pic_fn,
+          'pic_data': pic_data,
+          }
 
 
     def add_pic(self, ed, nline, fn, size_x, size_y, ntag):
-    
+
         id_bitmap, id_canvas = ed.gap(GAP_MAKE_BITMAP, size_x, size_y)
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff)
         canvas_proc(id_canvas, CANVAS_RECT_FILL, x=0, y=0, x2=size_x, y2=size_y)
@@ -120,18 +125,13 @@ class Command:
             size_y = item['size_y']
 
             ntag = PIC_TAG + crc
-            data_all[crc] = {
-              'ed_fn': fn_ed,
-              'pic_fn': pic_fn,
-              'pic_data': pic_data,
-              }
-              
             fn_temp = os.path.join(temp_dir, pic_fn)
             write_file_code(fn_temp, pic_data)
-            
+
+            self.add_dataitem(crc, fn_ed, size_x, size_y, pic_fn, pic_data)
             self.add_pic(ed_self, nline, fn_temp, size_x, size_y, ntag)
-            
-        msg_status('[Insert Pics] Loaded %d images' % len(data_this))
+
+        msg_status('[Insert Pics] Loaded %d pics' % len(data_this))
 
 
     def on_save(self, ed_self):
