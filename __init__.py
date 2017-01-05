@@ -39,6 +39,7 @@ def get_notes_fn(fn):
 
 class Command:
     def insert_dlg(self):
+    
         fn = dlg_file(True, '', '', DIALOG_FILTER)
         if not fn: return
 
@@ -68,6 +69,7 @@ class Command:
 
 
     def add_dataitem(self, crc, fn_ed, size_x, size_y, pic_fn, pic_data):
+    
         data_all[crc] = {
           'ed_fn': fn_ed,
           'size_x': size_x,
@@ -87,7 +89,7 @@ class Command:
         ed.gap(GAP_DELETE, nline, nline)
         ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag)
         
-        print('[Insert Pics] "%s", %dx%d, line %d' % (fn, size_x, size_y, nline+1))
+        print('[Insert Pics] "%s", %dx%d, line %d' % (os.path.basename(fn), size_x, size_y, nline+1))
 
 
     def del_cur(self):
@@ -102,13 +104,14 @@ class Command:
 
         cnt = 0
         for (y, tag, sizex, sizey) in l:
-            if tag==PIC_TAG:
+            if tag>=PIC_TAG:
                 ed.gap(GAP_DELETE, y, y)
                 cnt += 1
         msg_status('Removed %d pics' % cnt)
 
 
     def on_open(self, ed_self):
+    
         fn_ed = ed_self.get_filename()
         if not fn_ed: return
         fn_notes = get_notes_fn(fn_ed)
@@ -137,6 +140,7 @@ class Command:
 
 
     def on_save(self, ed_self):
+    
         fn = ed_self.get_filename()
         if not fn: return
         fn = get_notes_fn(fn)
