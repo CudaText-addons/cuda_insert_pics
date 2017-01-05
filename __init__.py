@@ -32,8 +32,7 @@ def write_file_code(filename, s):
     with open(filename, "wb") as f:
         f.write(s)
 
-
-def get_notes_fn(fn):
+def get_helper_filename(fn):
     if fn:
         return fn+'.cuda-notes'
 
@@ -123,10 +122,10 @@ class Command:
     
         fn_ed = ed_self.get_filename()
         if not fn_ed: return
-        fn_notes = get_notes_fn(fn_ed)
-        if not os.path.isfile(fn_notes): return
+        fn_helper = get_helper_filename(fn_ed)
+        if not os.path.isfile(fn_helper): return
 
-        with open(fn_notes, encoding='utf8') as f:
+        with open(fn_helper, encoding='utf8') as f:
             data_this = json.load(f)
         if not data_this: return
 
@@ -152,9 +151,9 @@ class Command:
     
         fn_ed = ed_self.get_filename()
         if not fn_ed: return
-        fn_notes = get_notes_fn(fn_ed)
-        if os.path.isfile(fn_notes):
-            os.remove(fn_notes)
+        fn_helper = get_helper_filename(fn_ed)
+        if os.path.isfile(fn_helper):
+            os.remove(fn_helper)
 
         gaps = ed_self.gap(GAP_GET_LIST, 0, 0)
         if not gaps: return
@@ -178,5 +177,5 @@ class Command:
                   })
 
         if not data_this: return
-        with open(fn_notes, 'w', encoding='utf8') as f:
+        with open(fn_helper, 'w', encoding='utf8') as f:
             f.write(json.dumps(data_this, indent=4))
