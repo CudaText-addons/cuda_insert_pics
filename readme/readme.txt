@@ -5,7 +5,7 @@ between lines.
 plugin gives commands in the Plugins menu: add pic, delete pic(s).
 prompt to resize is shown, if width of pic-file is bigger than eg 500.
 
-when file saves, plugin creates helper file with extent .cuda-notes (in the same dir),
+when file saves, plugin creates helper file with extention .cuda-pic (in the same dir),
 it is JSON file with info about inserted pictures.
 pictures are saved in Base64 encoding here. so helper file is big.
 on opening file, plugin reads this helper file, and re-adds pictures from it.

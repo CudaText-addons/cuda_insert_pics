@@ -35,7 +35,7 @@ def write_file_code(filename, s):
 
 def get_helper_filename(fn):
     if fn:
-        return fn+'.cuda-notes'
+        return fn+'.cuda-pic'
 
 
 class Command:
