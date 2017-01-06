@@ -1,9 +1,10 @@
 plugin for CudaText.
-gives ability to insert picture-files (png/jpeg/gif) into inter-line gaps, pics will show
-between lines.
+gives ability to insert picture-files (png/jpeg/gif) into inter-line gaps, 
+ie, pics will show between lines.
 
 plugin gives commands in the Plugins menu: add pic, delete pic(s).
-prompt to resize is shown, if width of pic-file is bigger than eg 500.
+prompt to resize is shown, if width of pic is bigger than ~500.
+pic is resized, if height is bigger than ~500.
 
 when file saves, plugin creates helper file with extention .cuda-pic (in the same dir),
 it is JSON file with info about inserted pictures.
