@@ -1,3 +1,6 @@
 
+2017.08.09
+- avoid deleted APIs
+
 2017.01.05
 init

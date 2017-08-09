@@ -8,14 +8,15 @@ from .imgsize import *
 
 PIC_TAG = 0x1000 #minimal tag for api (CRC adds to tag)
 BIG_SIZE = 500 #if width bigger, ask to resize
-DIALOG_FILTER = 'Pictures|*.png;*.jpg;*.jpeg;*.jpe;*.gif'
+DIALOG_FILTER = 'Pictures|*.png;*.jpg;*.jpeg;*.jpe;*.gif;*.bmp'
 PRE = '[Insert Pics] '
 MIN_H = 10 #limitations of api to gap height
 MAX_H = 500-5
-API_OK = app_api_version()>='1.0.164'
+API_OK = app_api_version()>='1.0.193'
 
 data_all = {}
 temp_dir = tempfile.gettempdir()
+id_img = image_proc(0, IMAGE_CREATE)
 
 
 def get_file_crc(filename):
@@ -95,6 +96,11 @@ class Command:
 
     def add_pic(self, ed, nline, fn, size_x, size_y, ntag):
 
+        global id_img
+        if not image_proc(id_img, IMAGE_LOAD, fn):
+            print(PRE+'Cannot load "%s"' % os.path.basename(fn))
+            return
+
         new_y = None
         if size_y < MIN_H: new_y = MIN_H
         if size_y > MAX_H: new_y = MAX_H
@@ -105,7 +111,8 @@ class Command:
         id_bitmap, id_canvas = ed.gap(GAP_MAKE_BITMAP, size_x, size_y)
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff)
         canvas_proc(id_canvas, CANVAS_RECT_FILL, x=0, y=0, x2=size_x, y2=size_y)
-        canvas_proc(id_canvas, CANVAS_IMAGE_SIZED, x=0, y=0, x2=size_x, y2=size_y, text=fn)
+
+        image_proc(id_img, IMAGE_PAINT_SIZED, (id_canvas, 0, 0, size_x, size_y))
 
         ed.gap(GAP_DELETE, nline, nline)
         ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag)
