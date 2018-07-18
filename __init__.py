@@ -8,11 +8,10 @@ from .imgsize import *
 
 PIC_TAG = 0x1000 #minimal tag for api (CRC adds to tag)
 BIG_SIZE = 500 #if width bigger, ask to resize
-DIALOG_FILTER = 'Pictures|*.png;*.jpg;*.jpeg;*.jpe;*.gif;*.bmp'
+DIALOG_FILTER = 'Pictures|*.png;*.jpg;*.jpeg;*.jpe;*.gif;*.bmp;*.ico'
 PRE = '[Insert Pics] '
 MIN_H = 10 #limitations of api to gap height
 MAX_H = 500-5
-API_OK = app_api_version()>='1.0.193'
 
 data_all = {}
 temp_dir = tempfile.gettempdir()
@@ -43,10 +42,6 @@ def get_helper_filename(fn):
 
 class Command:
     def insert_dlg(self):
-
-        if not API_OK:
-            msg_box('Insert Pics plugin needs newer app version', MB_OK+MB_ICONERROR)
-            return
 
         fn_ed = ed.get_filename()
         if not fn_ed:
@@ -161,8 +156,6 @@ class Command:
 
 
     def on_open(self, ed_self):
-
-        if not API_OK: return
 
         fn_ed = ed_self.get_filename()
         if not fn_ed: return
