@@ -1,4 +1,7 @@
 
+2018.07.18
++ support also pictures .bmp, .ico
+
 2017.08.09
 - avoid deleted APIs
 
