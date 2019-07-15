@@ -1,4 +1,7 @@
 
+2019.07.16
+- avoid deprecated API
+
 2018.07.18
 + support also pictures .bmp, .ico
 
@@ -6,4 +9,4 @@
 - avoid deleted APIs
 
 2017.01.05
-init
+initial version

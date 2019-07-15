@@ -117,12 +117,12 @@ class Command:
 
     def count_pics(self, ed):
 
-        gaps = ed.gap(GAP_GET_LIST, 0, 0)
+        gaps = ed.gap(GAP_GET_ALL, 0, 0)
         if not gaps: return 0
 
         cnt = 0
-        for (nline, ntag, size_x, size_y) in gaps:
-            crc = ntag-PIC_TAG
+        for item in gaps:
+            crc = item['tag']-PIC_TAG
             if crc>0:
                 cnt += 1
         return cnt
@@ -141,11 +141,13 @@ class Command:
 
     def del_all(self):
 
-        gaps = ed.gap(GAP_GET_LIST, 0, 0)
+        gaps = ed.gap(GAP_GET_ALL, 0, 0)
         if not gaps: return
 
         cnt = 0
-        for (y, tag, sizex, sizey) in gaps:
+        for item in gaps:
+            y = item['line']
+            tag = item['tag']
             if tag>PIC_TAG:
                 ed.gap(GAP_DELETE, y, y)
                 cnt += 1
@@ -192,14 +194,17 @@ class Command:
         if os.path.isfile(fn_helper):
             os.remove(fn_helper)
 
-        gaps = ed_self.gap(GAP_GET_LIST, 0, 0)
+        gaps = ed_self.gap(GAP_GET_ALL, 0, 0)
         if not gaps: return
 
         data_ed = data_all.get(fn_ed, None)
         if not data_ed: return
 
         data_this = []
-        for (nline, ntag, size_x, size_y) in gaps:
+        for item in gaps:
+            nline = item['line']
+            ntag = item['tag']
+            size_x, size_y = item['bitmap']
             crc = ntag-PIC_TAG
             if crc<=0: continue
             data_item = data_ed.get(crc, None)
