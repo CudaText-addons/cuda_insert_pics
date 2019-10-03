@@ -1,20 +1,25 @@
-plugin for CudaText.
-gives ability to insert picture files (png/jpeg/gif/bmp/ico) into inter-line gaps, 
-ie, pics will show between lines.
+Plugin for CudaText.
+Gives the ability to insert picture files (PNG/JPEG/GIF/BMP/ICO) to inter-line gaps,
+so pictures will be shown between lines. This works for any file and any syntax
+(with plain-text too).
 
-plugin gives commands in the Plugins menu: add pic, delete pic(s).
-prompt to resize is shown, if width of pic is bigger than ~500.
-pic is resized, if height is bigger than ~500.
+Plugin gives commands in "Plugins / Insert Pics" menu:
+- Insert pic
+- Remove pic for current line
+- Remove all pics
 
-when file saves, plugin creates helper file with extention .cuda-pic (in the same dir),
-it is JSON file with info about inserted pictures.
-pictures are saved in Base64 encoding here. so helper file is big.
-on opening file, plugin reads this helper file, and re-adds pictures from it.
-it creates picture files in the temp-folder.
+Prompt to resize is shown, if width of picture is bigger than ~500 px.
+Picture is auto-resized, if height is bigger than ~500 px.
 
-during editing, if you insert/delete lines, pics are glued to their original lines.
-they're deleted only if you delete their lines, or use plugin's commands to delete pics.
+When file with picture(s) is saved, plugin creates helper file with extention .cuda-pic,
+in the same folder. It is JSON file with info about inserted pictures.
+Pictures are saved in the helper file, in Base64 encoding, so helper file is big.
+On opening original file later, plugin reads the helper file, and re-adds pictures from it.
+It creates picture files in the OS temp folder.
+
+During editing, if you insert/delete lines, pics are glued to their original lines.
+They're deleted only if you delete their lines, or use plugin's commands to delete pics.
 
 
-author: Alexey (CudaText)
-license: MIT
+Author: Alexey Torgashin (CudaText)
+License: MIT
