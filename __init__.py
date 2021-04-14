@@ -96,6 +96,7 @@ class Command:
             return
 
         self.insert_file(fn)
+        os.remove(fn)
 
 
     def add_dataitem(self, crc, fn_ed, size_x, size_y, pic_fn, pic_data):
