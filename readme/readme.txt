@@ -4,9 +4,10 @@ so pictures will be shown between lines. This works for any file and any syntax
 (with plain-text too).
 
 Plugin gives commands in "Plugins / Insert Pics" menu:
-- Insert pic
-- Remove pic for current line
-- Remove all pics
+- Insert picture from file
+- Insert picture from clipboard
+- Remove picture for current line
+- Remove all picture
 
 Prompt to resize is shown, if width of picture is bigger than ~500 px.
 Picture is auto-resized, if height is bigger than ~500 px.
