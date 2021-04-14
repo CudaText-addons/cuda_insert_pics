@@ -49,8 +49,13 @@ class Command:
             return
 
         fn = dlg_file(True, '', '', DIALOG_FILTER)
-        if not fn: return
+        if fn:
+            self.insert_file(fn)
 
+
+    def insert_file(self, fn):
+
+        fn_ed = ed.get_filename()
         res = get_image_size(fn)
         if not res:
             msg_status(PRE+'Cannot detect picture sizes')
@@ -58,7 +63,7 @@ class Command:
         size_x, size_y = res
 
         if size_x>BIG_SIZE:
-            res = dlg_input('Pic width: %d. Resize to:' % size_x, str(BIG_SIZE))
+            res = dlg_input('Picture width is %d. Resize to width:' % size_x, str(BIG_SIZE))
             if res:
                 new_x = int(res)
                 size_y = size_y*new_x//size_x
@@ -74,6 +79,23 @@ class Command:
         self.add_pic(ed, nline, fn, size_x, size_y, ntag)
         ed.set_prop(PROP_MODIFIED, '1')
         msg_status(PRE+'Added "%s", %dx%d, line %d' % (os.path.basename(fn), size_x, size_y, nline))
+
+    def insert_clp(self):
+
+        fmt = app_proc(PROC_CLIP_ENUM, '')
+        if not 'p' in fmt:
+            msg_status(PRE+'Clipboard doesn\'t contain picture')
+            return
+
+        fn = os.path.join(temp_dir, 'cudatext_clipboard.png')
+        if os.path.exists(fn):
+            os.remove(fn)
+
+        if not app_proc(PROC_CLIP_SAVE_PIC, fn):
+            msg_status(PRE+'Cannot save clipboard to a file: '+fn)
+            return
+
+        self.insert_file(fn)
 
 
     def add_dataitem(self, crc, fn_ed, size_x, size_y, pic_fn, pic_data):

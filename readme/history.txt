@@ -1,12 +1,15 @@
 
+2021.04.14
++ add: command "Insert picture from clipboard"
+
 2019.07.16
-- avoid deprecated API
+- fix: avoid deprecated API
 
 2018.07.18
-+ support also pictures .bmp, .ico
++ add: support also pictures .bmp, .ico
 
 2017.08.09
-- avoid deleted APIs
+- fix: avoid deleted APIs
 
 2017.01.05
 initial version
