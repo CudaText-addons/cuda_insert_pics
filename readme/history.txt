@@ -1,3 +1,5 @@
+2024.12.29
+- fix: include 'imghdr.py' since it was deleted from Py 3.13
 
 2021.04.14
 + add: command "Insert picture from clipboard"

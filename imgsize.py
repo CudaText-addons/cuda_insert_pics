@@ -1,7 +1,7 @@
 # http://stackoverflow.com/a/20380514/1789574
 
 import struct
-import imghdr
+from . import imghdr
 
 def get_image_size(fname):
     '''Determine the image type of fhandle and return its size.
