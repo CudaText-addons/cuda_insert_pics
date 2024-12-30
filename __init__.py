@@ -6,9 +6,12 @@ import base64
 from cudatext import *
 from .imgsize import *
 
+from cudax_lib import get_translation
+_ = get_translation(__file__)  # I18N
+
 PIC_TAG = 0x1000 #minimal tag for api (CRC adds to tag)
 BIG_SIZE = 500 #if width bigger, ask to resize
-DIALOG_FILTER = 'Pictures|*.png;*.jpg;*.jpeg;*.jpe;*.gif;*.bmp;*.ico'
+DIALOG_FILTER = _('Pictures')+'|*.png;*.jpg;*.jpeg;*.jpe;*.gif;*.bmp;*.ico'
 PRE = '[Insert Pics] '
 MIN_H = 10 #limitations of api to gap height
 MAX_H = 500-5
@@ -45,7 +48,7 @@ class Command:
 
         fn_ed = ed.get_filename()
         if not fn_ed:
-            msg_status(PRE+'Needed named file')
+            msg_status(PRE+_('Needed named file'))
             return
 
         fn = dlg_file(True, '', '', DIALOG_FILTER)
@@ -58,12 +61,12 @@ class Command:
         fn_ed = ed.get_filename()
         res = get_image_size(fn)
         if not res:
-            msg_status(PRE+'Cannot detect picture sizes')
+            msg_status(PRE+_('Cannot detect picture sizes'))
             return
         size_x, size_y = res
 
         if size_x>BIG_SIZE:
-            res = dlg_input('Picture width is %d. Resize to width:' % size_x, str(BIG_SIZE))
+            res = dlg_input(_('Picture width is %d. Resize to width:') % size_x, str(BIG_SIZE))
             if res:
                 new_x = int(res)
                 size_y = size_y*new_x//size_x
@@ -78,13 +81,13 @@ class Command:
         self.add_dataitem(crc, fn_ed, size_x, size_y, os.path.basename(fn), code)
         self.add_pic(ed, nline, fn, size_x, size_y, ntag)
         ed.set_prop(PROP_MODIFIED, '1')
-        msg_status(PRE+'Added "%s", %dx%d, line %d' % (os.path.basename(fn), size_x, size_y, nline))
+        msg_status(PRE+_('Added "{}", {}x{}, line {}').format(os.path.basename(fn), size_x, size_y, nline))
 
     def insert_clp(self):
 
         fmt = app_proc(PROC_CLIP_ENUM, '')
         if not 'p' in fmt:
-            msg_status(PRE+'Clipboard doesn\'t contain picture')
+            msg_status(PRE+_('Clipboard doesn\'t contain picture'))
             return
 
         fn = os.path.join(temp_dir, 'cudatext_clipboard.png')
@@ -92,7 +95,7 @@ class Command:
             os.remove(fn)
 
         if not app_proc(PROC_CLIP_SAVE_PIC, fn):
-            msg_status(PRE+'Cannot save clipboard to a file: '+fn)
+            msg_status(PRE+_('Cannot save clipboard to a file: ')+fn)
             return
 
         self.insert_file(fn)
@@ -116,7 +119,7 @@ class Command:
 
         global id_img
         if not image_proc(id_img, IMAGE_LOAD, fn):
-            print(PRE+'Cannot load "%s"' % os.path.basename(fn))
+            print(PRE+_('Cannot load "%s"') % os.path.basename(fn))
             return
 
         new_y = None
@@ -135,7 +138,7 @@ class Command:
         ed.gap(GAP_DELETE, nline, nline)
         ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag)
 
-        print(PRE+'"%s", %dx%d, line %d' % (os.path.basename(fn), size_x, size_y, nline+1))
+        print(PRE+_('"%s", %dx%d, line %d') % (os.path.basename(fn), size_x, size_y, nline+1))
 
 
     def count_pics(self, ed):
@@ -175,7 +178,7 @@ class Command:
                 ed.gap(GAP_DELETE, y, y)
                 cnt += 1
 
-        msg_status(PRE+'Removed %d pics' % cnt)
+        msg_status(PRE+_('Removed %d pics') % cnt)
         if cnt>0:
             ed.set_prop(PROP_MODIFIED, '1')
 
@@ -206,7 +209,7 @@ class Command:
             self.add_dataitem(crc, fn_ed, size_x, size_y, pic_fn, pic_data)
             self.add_pic(ed_self, nline, fn_temp, size_x, size_y, ntag)
 
-        msg_status(PRE+'Loaded %d pics' % len(data_this))
+        msg_status(PRE+_('Loaded %d pics') % len(data_this))
 
 
     def on_save(self, ed_self):

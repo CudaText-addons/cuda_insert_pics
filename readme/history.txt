@@ -1,4 +1,5 @@
-2024.12.29
+2024.12.30
++ add: support i18n (patch by Markus F.)
 - fix: include 'imghdr.py' since it was deleted from Py 3.13
 
 2021.04.14
