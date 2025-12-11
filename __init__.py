@@ -22,8 +22,8 @@ id_img = image_proc(0, IMAGE_CREATE)
 
 
 def get_file_crc(filename):
-    s = open(filename, "rb").read()
-    return zlib.crc32(s) & 0xFFFFFFFF
+    s = open(filename, "rb").read(4*1024)
+    return zlib.crc32(s) & 0x0FFFFFFF # not 8 F-digits, because we add PIC_TAG to this crc, and must stay in 32-bit
 
 def get_file_code(filename):
     s = ''
@@ -196,7 +196,7 @@ class Command:
 
         for item in data_this:
             nline = item['line']
-            crc = item['crc']
+            crc = item['crc'] & 0x0FFFFFFF
             pic_fn = item['pic_fn']
             pic_data = item['pic_data']
             size_x = item['size_x']
