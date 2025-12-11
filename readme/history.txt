@@ -1,3 +1,6 @@
+2025.12.11
+- fix: adapt to last CudaText 1.230.5 (Editor.gap 'tag' changed from 64-bit to 32-bit)
+
 2024.12.30
 + add: support i18n (patch by Markus F.)
 - fix: include 'imghdr.py' since it was deleted from Py 3.13
