@@ -46,7 +46,7 @@ def get_helper_filename(fn):
 class Command:
     def insert_dlg(self):
 
-        fn_ed = ed.get_filename()
+        fn_ed = ed.get_prop(PROP_FN, '')
         if not fn_ed:
             msg_status(PRE+_('Needed named file'))
             return
@@ -58,7 +58,7 @@ class Command:
 
     def insert_file(self, fn):
 
-        fn_ed = ed.get_filename()
+        fn_ed = ed.get_prop(PROP_FN, '')
         res = get_image_size(fn)
         if not res:
             msg_status(PRE+_('Cannot detect picture sizes'))
@@ -185,7 +185,7 @@ class Command:
 
     def on_open(self, ed_self):
 
-        fn_ed = ed_self.get_filename()
+        fn_ed = ed_self.get_prop(PROP_FN, '')
         if not fn_ed: return
         fn_helper = get_helper_filename(fn_ed)
         if not os.path.isfile(fn_helper): return
@@ -214,7 +214,7 @@ class Command:
 
     def on_save(self, ed_self):
 
-        fn_ed = ed_self.get_filename()
+        fn_ed = ed_self.get_prop(PROP_FN, '')
         if not fn_ed: return
         fn_helper = get_helper_filename(fn_ed)
         if os.path.isfile(fn_helper):
