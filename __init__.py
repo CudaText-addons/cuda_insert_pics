@@ -134,6 +134,7 @@ class Command:
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff)
         canvas_proc(id_canvas, CANVAS_RECT_FILL, x=0, y=0, x2=size_x, y2=size_y)
 
+        canvas_proc(id_canvas, CANVAS_SET_ANTIALIAS, style=ANTIALIAS_ON)
         canvas_proc(id_canvas, CANVAS_IMAGE_SIZED,
                     p1=id_img,
                     x=0,
