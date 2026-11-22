@@ -1,5 +1,6 @@
-2026.11.21
+2026.11.22
 - fix: avoid deprecated API: get_filename
+- fix: avoid deprecated API: GAP_MAKE_BITMAP
 
 2025.12.11
 - fix: adapt to last CudaText 1.230.5 (Editor.gap 'tag' changed from 64-bit to 32-bit)
