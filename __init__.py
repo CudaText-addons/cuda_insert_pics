@@ -134,7 +134,12 @@ class Command:
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff)
         canvas_proc(id_canvas, CANVAS_RECT_FILL, x=0, y=0, x2=size_x, y2=size_y)
 
-        image_proc(id_img, IMAGE_PAINT_SIZED, (id_canvas, 0, 0, size_x, size_y))
+        canvas_proc(id_canvas, CANVAS_IMAGE_SIZED,
+                    p1=id_img,
+                    x=0,
+                    y=0,
+                    x2=size_x,
+                    y2=size_y)
 
         ed.gap(GAP_DELETE, nline, nline)
         ed.gap(GAP_ADD, nline, id_bitmap, tag=ntag)
